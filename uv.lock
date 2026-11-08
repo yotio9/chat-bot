@@ -359,6 +359,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
+    { name = "ffmpeg" },
     { name = "ngrok" },
     { name = "python-dotenv" },
     { name = "python-telegram-bot" },
@@ -369,6 +370,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = ">=0.162.0" },
+    { name = "ffmpeg", specifier = ">=1.4" },
     { name = "ngrok", specifier = ">=1.7.0" },
     { name = "python-dotenv", specifier = ">=1.2.4" },
     { name = "python-telegram-bot", specifier = ">=22.8" },
@@ -401,6 +403,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/e9/eb/2cf8c80abf09b2800
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b4/4f/3f2c25c9b43970b5e9a08beb5e04776247edea684ddc0930f4f02f0bb6cb/fastapi-0.162.0-py3-none-any.whl", hash = "sha256:3785963de305dd09912426cb81f2d230fce98ab3521cdfe97265c8d14983128c", size = 148912, upload-time = "2026-10-23T18:47:31.734Z" },
 ]
+
+[[package]]
+name = "ffmpeg"
+version = "1.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/cc/3b7408b8ecf7c1d20ad480c3eaed7619857bf1054b690226e906fdf14258/ffmpeg-1.4.tar.gz", hash = "sha256:6931692c890ff21d39938433c2189747815dca0c60ddc7f9bb97f199dba0b5b9", size = 5055, upload-time = "2018-10-08T07:50:05.748Z" }
 
 [[package]]
 name = "h11"

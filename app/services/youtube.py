@@ -1,16 +1,21 @@
 from pathlib import Path
 import yt_dlp
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import CallbackQueryHandler
 
 url="https://www.youtube.com/watch?v=UkI9tKvvc4c"
 
 
 def get_video_info(url):
-    
-
     ydl_opts = {
         "quiet": True,
-        "no_warning": True,
-        "noplaylist": True
+        "no_warnings": True,
+        "noplaylist": True,
+        "js_runtimes": {
+            "deno": {
+                "path": r"C:\Users\yann1\.deno\bin\deno.exe"
+            }
+        },
     }
 
     try:
@@ -62,39 +67,43 @@ def get_available_qualities(formats):
 
 def download_video(url):
     ydl_opts = {
-        "format": "bestvideo+bestaudio/best",
-        "outtmpl": "downloads/%(title)s.%(ext)s",
-        "merge_output_format": "mp4",
+        "format": "18/best[acodec!=none][vcodec!=none]",
+        "outtmpl": "downloads/%(id)s.%(ext)s",
         "noplaylist": True,
+        "js_runtimes": {
+            "deno": {
+                "path": r"C:\Users\yann1\.deno\bin\deno.exe"
+            }
+        },
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
-        return ydl.prepare_filename(info)
 
+        file_path = ydl.prepare_filename(info)
 
+        if not Path(file_path).exists():
+            raise FileNotFoundError("Vidéo téléchargée introuvable.")
+
+        return file_path
 def download_audio(url):
-    ydl_opts={
-        "format":"bestaudio/best",
-        "outtmpl":" downloads/%(title)s.%(ext)s",
-        "noplaylist":True,
-        "postprocessors":[
-            {
-                "key":"FFmpegExtractAudio",
-                "preferredcodec":"mp3",
-                "preferredquality":"192",
-
+    ydl_opts = {
+        "format": "140/bestaudio[ext=m4a]/bestaudio",
+        "outtmpl": "downloads/%(id)s.%(ext)s",
+        "noplaylist": True,
+        "js_runtimes": {
+            "deno": {
+                "path": r"C:\Users\yann1\.deno\bin\deno.exe"
             }
-        ]
-
-    }  
+        },
+    }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info= ydl.extract_info(url,download=True)
-        original_path=Path(ydl.prepare_filemane(info))
-        mp3_path =original_path.with_suffix(".mp3")
+        info = ydl.extract_info(url, download=True)
 
-        if mp3_path.exists():
-            return str(mp3_path)
+        file_path = ydl.prepare_filename(info)
 
-        raise FileNotFoundError(" le fichier MP3 na pas ete créér.")
+        if not Path(file_path).exists():
+            raise FileNotFoundError("Fichier audio introuvable.")
+
+        return file_path
